@@ -27,7 +27,6 @@ generic
     
 package Partie is
    
-   
     -- Joue une partie. 
     -- E : Etat initial
     -- J : Joueur qui commence
