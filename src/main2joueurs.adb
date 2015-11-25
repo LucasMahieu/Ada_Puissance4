@@ -1,4 +1,4 @@
-with Ada.Text_IO; 
+with Ada.Text_IO;
 with Ada.Integer_Text_IO;
 with Puissance4;
 with Participant;

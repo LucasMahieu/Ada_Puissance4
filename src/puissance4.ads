@@ -3,15 +3,22 @@ generic
     -- Largeur du plateau
     Largeur : Integer;
     -- Hauteur du plateau
-    Hauteur : Integer;
+    Hauteur : Natural;
     -- Nombre de pions alignés nécessaires à la victoire
-    Pions_Victoire : Integer;
+    Pions_Victoire : Natural;
 
 package Puissance4 is
 
-    type Etat is 
-    type Coup is 
+    -- Tableau à deux dimensions pour connaître la valeur de chaque case.
+    type Etat is array (0..Largeur, 0..Hauteur) of Joueur;
+    -- Un coup = 1 joueur et 1 colonne
+    type Coup is record
+        j : Joueur;
+        col : Natural;
+    end record;
 
+    -- Initialisation de l'état initial
+    procedure Initialiser(E : Etat);
     -- Calcule l'etat suivant en appliquant le coup
     function Jouer(E : Etat; C : Coup) return Etat;
     -- Indique si l'etat courant est gagnant pour le joueur J
