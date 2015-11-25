@@ -21,7 +21,7 @@ package Puissance4 is
     end record;
 
     -- Initialisation de l'état initial
-    procedure Initialiser(E : Etat);
+    procedure Initialiser(E : in out Etat);
     -- Calcule l'etat suivant en appliquant le coup
     function Jouer(E : Etat; C : Coup) return Etat;
     -- Indique si l'etat courant est gagnant pour le joueur J

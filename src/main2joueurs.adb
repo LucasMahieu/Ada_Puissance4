@@ -38,5 +38,5 @@ begin
    
    MyPuissance4.Initialiser(P);
    
-   --Joue_Partie(P, Joueur2);
+   Joue_Partie(P, Joueur2);
 end Main2Joueurs;

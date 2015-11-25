@@ -1,5 +1,6 @@
-with Liste_Generique, Participant;
+--with Liste_Generique;
 with Ada.Text_IO;
+with Participant;
 use Participant;
 
 generic

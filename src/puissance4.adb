@@ -1,11 +1,13 @@
 with Participant, Puissance4;
 with Ada.Text_IO;
+with Ada.Integer_Text_IO;
+use Ada.Integer_Text_IO;
 use Participant;
 use Ada.Text_IO;
 
 package body Puissance4 is
 
-    procedure Initialiser(E : Etat) is
+    procedure Initialiser(E : in out Etat) is
         i : Natural := 0;
         j : Natural := 0;
     begin
@@ -19,56 +21,59 @@ package body Puissance4 is
 
     function Jouer(E : Etat; C : Coup) return Etat is
         jVide : Natural := 0;
+        etatFinal : Etat := E;
     begin
         -- Si la colonne où l'on veut jouer est pleine
-        if (E'last(2) /= Vide) then
-            return null;
+        if (E(C.col, E'last(2)) /= Vide) then
+            return E;
         end if;
         -- On se place sur la colonne du coup à jouer
         -- et on cherche l'indice de la première case vide.
         while E(C.col, jVide) /= Vide loop
             jVide := jVide + 1;
         end loop;
-        E(C.col, jVide) := C.j;
 
-        return E;
+        etatFinal(C.col, jVide) := C.j;
+
+        return etatFinal;
     end Jouer;
 
     function Est_Gagnant(E : Etat; J : Joueur) return Boolean is
-        i : Natural := 0;
-        j : Natural := 0;
+        n : Natural := 0;
+        m : Natural := 0;
         pions : Natural := 0;
     begin
         for i in E'range(1) loop
             for j in E'range(2) loop
-                E(i,j) := Vide;
+                null;
             end loop;
         end loop;
+        return true;
     end Est_Gagnant;
 
     function Est_Nul(E : Etat) return Boolean is
 
     begin
+        null;
 
+        return true;
     end Est_Nul;
 
-    procedure Afficher(E : Etat) is
+    procedure Afficher(E : in Etat) is
         i : Natural := 0;
         j : Natural := 0;
     begin
-        for j in E'last(2)..E'first(2) loop
-            Put("|");
-            for i in E'last(1)..E'first(1) loop
+        for j in reverse E'range(2) loop
+            for i in E'range(1) loop
                 if (E(i,j) = Joueur1) then
-                    Put("O");
+                    Put("|O");
                 elsif (E(i,j) = Joueur2) then
-                    Put("X");
+                    Put("|X");
                 else
-                    Put(" ");
+                    Put("| ");
                 end if;
-                Put_Line("|");
             end loop;
-            New_Line;
+            Put_Line("|");
         end loop;
     end Afficher;
 
@@ -80,19 +85,20 @@ package body Puissance4 is
             Put_Line("Le joueur 2 a mis son pion sur la colonne " & Integer'Image(C.col));
         else
             Put_Line("Erreur.");
-        end if
+        end if;
     end Affiche_Coup;
 
     function Demande_Coup_Joueur1(E : Etat) return Coup is
         col : Natural := 0;
         trafalgar : Coup;
     begin
-        Affiche(E);
+        New_Line;
+        Afficher(E);
         Put_Line("Choix Joueur1 : ");
         Get(col);
-        if (E(col, T'last(2)) /= Vide) then
+        if (E(col, E'last(2)) /= Vide) then
             Put_Line("Cette colonne est pleine.");
-            Demande_Coup_Joueur1(E);
+            return Demande_Coup_Joueur1(E);
         end if;
         trafalgar.j := Joueur1;
         trafalgar.col := col;
@@ -104,17 +110,17 @@ package body Puissance4 is
         col : Natural := 0;
         trafalgar : Coup;
     begin
-        Affiche(E);
+        Afficher(E);
         Put_Line("Choix Joueur2 : ");
         Get(col);
-        if (E(col, T'last(2)) /= Vide) then
+        if (E(col, E'last(2)) /= Vide) then
             Put_Line("Cette colonne est pleine.");
-            Demande_Coup_Joueur1(E);
+            return Demande_Coup_Joueur2(E);
         end if;
         trafalgar.j := Joueur2;
         trafalgar.col := col;
 
         return trafalgar;
-    end Demande_Coup_Joueur1;       
+    end Demande_Coup_Joueur2;
 
 end Puissance4;
