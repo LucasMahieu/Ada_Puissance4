@@ -1,3 +1,6 @@
+with Participant;
+use Participant;
+
 generic
 
     -- Largeur du plateau
@@ -10,7 +13,7 @@ generic
 package Puissance4 is
 
     -- Tableau à deux dimensions pour connaître la valeur de chaque case.
-    type Etat is array (0..Largeur, 0..Hauteur) of Joueur;
+    type Etat is array (0..Largeur - 1, 0..Hauteur - 1) of Joueur;
     -- Un coup = 1 joueur et 1 colonne
     type Coup is record
         j : Joueur;

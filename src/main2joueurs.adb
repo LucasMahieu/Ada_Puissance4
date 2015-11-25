@@ -3,8 +3,8 @@ with Ada.Integer_Text_IO;
 with Puissance4;
 with Participant;
 with Partie;
-with Liste_Generique;
-with Moteur_Jeu;
+--with Liste_Generique; Décommenter quand implémentée
+--with Moteur_Jeu; Décommenter quand implémentée
 
 use Ada.Text_IO;
 use Ada.Integer_Text_IO;
@@ -38,5 +38,5 @@ begin
    
    MyPuissance4.Initialiser(P);
    
-   Joue_Partie(P, Joueur2);
+   --Joue_Partie(P, Joueur2);
 end Main2Joueurs;
