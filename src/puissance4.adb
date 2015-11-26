@@ -39,24 +39,16 @@ package body Puissance4 is
     end Jouer;
 
     function Est_Gagnant(E : Etat; J : Joueur) return Boolean is
-        n : Natural := 0;
-        m : Natural := 0;
-        pions : Natural := 0;
     begin
-        for i in E'range(1) loop
-            for j in E'range(2) loop
-                null;
-            end loop;
-        end loop;
-        return true;
+        null;
+        return false;
     end Est_Gagnant;
 
     function Est_Nul(E : Etat) return Boolean is
 
     begin
         null;
-
-        return true;
+        return false;
     end Est_Nul;
 
     procedure Afficher(E : in Etat) is
@@ -80,9 +72,9 @@ package body Puissance4 is
     procedure Affiche_Coup(C : in Coup) is
     begin
         if (C.j = Joueur1) then
-            Put_Line("Le joueur 1 a mis son pion sur la colonne " & Integer'Image(C.col));
+            Put_Line("Le joueur 1 a mis son pion sur la colonne" & Integer'Image(C.col));
         elsif (C.j = Joueur2) then
-            Put_Line("Le joueur 2 a mis son pion sur la colonne " & Integer'Image(C.col));
+            Put_Line("Le joueur 2 a mis son pion sur la colonne" & Integer'Image(C.col));
         else
             Put_Line("Erreur.");
         end if;
@@ -92,10 +84,12 @@ package body Puissance4 is
         col : Natural := 0;
         trafalgar : Coup;
     begin
-        New_Line;
-        Afficher(E);
-        Put_Line("Choix Joueur1 : ");
+        Put("Choix Joueur1 : ");
         Get(col);
+        if (col > E'last(1) or col < E'first(1)) then
+            Put_Line("Insérez votre pion dans une colonne valide !");
+            return Demande_Coup_Joueur1(E);
+        end if;
         if (E(col, E'last(2)) /= Vide) then
             Put_Line("Cette colonne est pleine.");
             return Demande_Coup_Joueur1(E);
@@ -110,9 +104,12 @@ package body Puissance4 is
         col : Natural := 0;
         trafalgar : Coup;
     begin
-        Afficher(E);
-        Put_Line("Choix Joueur2 : ");
+        Put("Choix Joueur2 : ");
         Get(col);
+        if (col > E'last(1) or col < E'first(1)) then
+            Put_Line("Insérez votre pion dans une colonne valide !");
+            return Demande_Coup_Joueur2(E);
+        end if;
         if (E(col, E'last(2)) /= Vide) then
             Put_Line("Cette colonne est pleine.");
             return Demande_Coup_Joueur2(E);
