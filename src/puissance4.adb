@@ -60,89 +60,130 @@ package body Puissance4 is
             end loop;
             -- On vérifie si le pion en haut de cette colonne est bien de J
             if (E(i, jMax) = J) then
+
+                -- Diagonale y = x
+                -- Partie haute
                 i_check := i;
                 j_check := jMax;
-                -- On traite d'abord les cas sur les bords.
-                if (i = 0) then
-                    -- Si on est sur la première colonne.
-                    -- On se déplace vers la diagonale haute
-                    while (E(i_check, j_check) = J and j_check <= E'last(2)) loop
-                        pions_aligne := pions_aligne + 1;
-                        if (pions_aligne >= Puissance4.Pions_Victoire) then
-                            return true;
-                        end if;
-                        i_check := i_check + 1;
-                        j_check := j_check + 1;
-                    end loop;
 
-                    i_check := i;
-                    j_check := jMax;
-                    pions_aligne := 0;
+                while (E(i_check, j_check) = J and j_check <= E'last(2) and i_check <= E'last(1)) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    i_check := i_check + 1;
+                    j_check := j_check + 1;
+                end loop;
 
-                    -- On se déplace vers la droite.
-                    while (E(i_check, j_check) = J loop
-                        pions_aligne := pions_aligne + 1;
-                        if (pions_aligne >= Puissance4.Pions_Victoire) then
-                            return true;
-                        end if;
-                        i_check := i_check + 1;
-                    end loop;
+                -- Partie basse en commançant par la case en bas à gauche.
+                i_check := i - 1;
+                j_check := jMax - 1;
 
-                    i_check := i;
-                    j_check := jMax;
-                    pions_aligne := 0;
+                while (E(i_check, j_check) = J and j_check >= E'first(2) and i_check >= E'first(1)) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    i_check := i_check - 1;
+                    j_check := j_check - 1;
+                end loop;
 
-                    -- On se déplace vers diagonale basse.
-                    while (E(i_check, j_check) = J and j_check >= E'first(2)) = J loop
-                        pions_aligne := pions_aligne + 1;
-                        if (pions_aligne >= Puissance4.Pions_Victoire) then
-                            return true;
-                        end if;
-                        i_check := i_check + 1;
-                        j_check := j_check - 1;
-                    end loop;
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := 0;
 
-                    i_check := i;
-                    j_check := jMax;
-                    pions_aligne := 0;
+                -- Diagonale y = -x
+                -- Partie haute
 
-                    -- On se déplace vers le bas.
-                    while (E(i_check, j_check) = J and j_check >= E'first(2)) = J loop
-                        pions_aligne := pions_aligne + 1;
-                        if (pions_aligne >= Puissance4.Pions_Victoire) then
-                            return true;
-                        end if;
-                        j_check := j_check - 1;
-                    end loop;
+                while (E(i_check, j_check) = J and j_check <= E'last(2) and i_check >= E'first(1)) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    i_check := i_check - 1;
+                    j_check := j_check + 1;
+                end loop;
 
-                    i_check := i;
-                    j_check := jMax;
-                    pions_aligne := 0;
+                -- Partie basse en commançant par la case en bas à droite.
+                i_check := i + 1;
+                j_check := jMax - 1;
 
-                elsif (i = E'last(1)) then
-                    -- Si on est sur la dernière colonne.
+                while (E(i_check, j_check) = J and j_check >= E'first(2) and i_check <= E'last(1)) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    i_check := i_check + 1;
+                    j_check := j_check - 1;
+                end loop;
 
-                elsif (jMax = E'last(2)) then
-                    -- Si on est sur la dernière ligne.
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := 0;
 
-                else
-                -- On regarde dans les 4 directions autour de la case à la recherche de pions alignés.
+                -- Ligne
+                -- Partie droite
 
-                end if;
+                while (E(i_check, j_check) = J and i_check <= E'last(1)) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    i_check := i_check + 1;
+                end loop;
 
+                -- Partie gauche en commançant une case à gauche.
+                i_check := i - 1;
+                j_check := jMax;
 
+                while (E(i_check, j_check) = J and i_check >= E'first(1)) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    i_check := i_check - 1;
+                end loop;
+
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := 0;
+
+                -- Colonne
+
+                while (E(i_check, j_check) = J and j_check >= E'first(1)) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    j_check := j_check - 1;
+                end loop;
 
             end if;
         end loop;
-
+        
+        -- Si aucune des conditions d'au-dessus n'a été validée.
         return false;
+
     end Est_Gagnant;
 
     function Est_Nul(E : Etat) return Boolean is
-
+        count : Natural := 0;
+        i : Natural := 0;
     begin
         -- Le match est nulle lorsque toutes les cases sont occupées.
-        null;
+        for i in E'range(1) loop
+            if (E(i, E'last(2)) /= Vide) then
+                count := count + 1;
+            end if;
+        end loop;
+
+        -- Si toutes les dernières cases sont occupées,
+        -- c'est que le tableau est rempli.
+        if (count = E'length(2)) then
+            return true;
+        end if;
+
+        -- Dans le cas contraire, il reste des coups à jouer !
         return false;
     end Est_Nul;
 
