@@ -7,10 +7,10 @@ package body Partie is
         detat : Coup;
         j_en_cours : Joueur := J;
     begin
+        Affiche_Jeu(E);
         -- Tant que le match n'est pas nul, on joue.
-        while (Est_Nul(E) = false) loop
+        while (not Est_Nul(E)) loop
             New_Line;
-            Affiche_Jeu(E);
             -- Tour du premier joueur (donné en param)
             if (j_en_cours = Joueur1) then
                 -- Le joueur choisit sa colonne
