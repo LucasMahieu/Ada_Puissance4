@@ -55,6 +55,7 @@ private
 
     type Iterateur_Interne;
     type Iterateur is access Iterateur_Interne;
+	type Iterateur_Interne is Cellule;
    
 end Liste_Generique;
 
