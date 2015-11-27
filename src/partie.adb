@@ -48,7 +48,6 @@ package body Partie is
 		end loop;
 		-- Si on arrive là, c'est que le match est nul.
 		Put_Line("Match nul !!! Vous êtes fiers de vous ?");
-
 		-- Etiquette pour sortir de la boucle en cas de victoire
 		<<exit_loop>>
 
