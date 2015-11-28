@@ -20,6 +20,7 @@ procedure Main2Joueurs is
                                        MyPuissance4.Est_Gagnant,
                                        MyPuissance4.Est_Nul,
                                        MyPuissance4.Affiche_Coup,
+                                       MyPuissance4.Liste_Coups,
                                        MyPuissance4.Coups_Possibles,
                                        MyPuissance4.Eval,
                                        3,

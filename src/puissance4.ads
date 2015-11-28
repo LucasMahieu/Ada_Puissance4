@@ -37,8 +37,9 @@ package Puissance4 is
     function Demande_Coup_Joueur1(E : Etat) return Coup;
     -- Retourne le prochaine coup joue par le joueur2
     function Demande_Coup_Joueur2(E : Etat) return Coup;
+
     -- Implantation d'un package de liste de coups
-    with package Liste_Coups is new Liste_Generique(Coup, Affiche_Coup); 
+    package Liste_Coups is new Liste_Generique(Coup, Affiche_Coup); 
     -- Retourne la liste des coups possibles pour J a partir de l'etat
     function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups.Liste;
     -- Evaluation statique du jeu du point de vue de l'ordinateur
