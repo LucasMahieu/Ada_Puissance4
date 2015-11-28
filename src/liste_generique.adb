@@ -9,13 +9,16 @@ package body Liste_Generique is
 		suiv: Liste;
 	end record;
 
-	type Iterateur_Interne is new Cellule;
+	type Iterateur_Interne is record
+		cel: Cellule;
+	end record;
 
 	procedure Libere is new Ada.Unchecked_Deallocation(Cellule, Liste);
+	procedure Libere_It is new Ada.Unchecked_Deallocation(Iterateur_Interne, Iterateur);
 
 	----------------------------------------------
 	----- Affiche le contenu de la Liste
-	----------------------------------------------	
+	----------------------------------------------
 	procedure Affiche_Liste(L: in Liste) is
 		cour: Liste :=L;
 	begin
@@ -76,8 +79,8 @@ package body Liste_Generique is
 		It : Iterateur;
 	begin
 		It := new Iterateur_Interne;
-		It.val := L.val;
-		It.suiv := L.suiv;
+		It.cel.val := L.val;
+		It.cel.suiv := L.suiv;
 		return It; 
 	end Creer_Iterateur;
 
@@ -87,7 +90,7 @@ package body Liste_Generique is
 	----------------------------------------------
 	procedure Libere_Iterateur(It: in out Iterateur) is
 	begin
-		Libere(It);
+		Libere_It(It);
 	end Libere_Iterateur;
 
 	----------------------------------------------
@@ -95,7 +98,8 @@ package body Liste_Generique is
 	----------------------------------------------
 	procedure Suivant(It: in out Iterateur) is
 	begin
-		It := It.suiv;
+		It.cel.val := It.cel.suiv.val;
+		It.cel.suiv := It.cel.suiv.suiv;
 	end Suivant;
 
 	----------------------------------------------
@@ -103,22 +107,16 @@ package body Liste_Generique is
 	----------------------------------------------
 	function Element_Courant(It : Iterateur) return Element  is
 	begin
-		return It.Element;
+		return It.cel.val;
 	end Element_Courant;
 	----------------------------------------------
 	----- Verifie si il reste un élément à parcourir
 	----------------------------------------------
 	function A_Suivant (It: Iterateur) return Boolean is
-		tmp:Iterateur;
 	begin
-		tmp:=new Iterateur_Interne;
-		tmp:=It;
-		Suivant(tmp);
-		if tmp=null then
-			Libere_Iterateur(tmp);
+		if It.cel.suiv=null then
 			return false;
 		else
-			Libere_Iterateur(tmp);
 			return true;
 		end if;
 	end A_Suivant;
