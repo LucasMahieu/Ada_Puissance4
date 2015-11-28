@@ -19,8 +19,6 @@ package body Partie is
 				Affiche_Coup(detat);
 				-- On calcule l'état suivant
 				E := Etat_Suivant(E, detat);
-				-- On affiche le plateau
-				Affiche_Jeu(E);
 				-- Si son coup est gagnant, on quitte la boucle
 				if (Est_Gagnant(E, Joueur1)) then
 					Put_Line(Partie.Nom_Joueur1 & " a gagné ! Bravo à lui !!!");
@@ -35,8 +33,6 @@ package body Partie is
 				Affiche_Coup(detat);
 				-- On calcule l'état suivant
 				E := Etat_Suivant(E, detat);
-				-- On affiche le plateau
-				Affiche_Jeu(E);
 				-- Si son coup est gagnant, on quitte la boucle
 				if (Est_Gagnant(E, Joueur2)) then
 					Put_Line(Partie.Nom_Joueur2 & " a gagné ... Il a encore triché ...");
@@ -50,6 +46,8 @@ package body Partie is
 		Put_Line("Match nul !!! Vous êtes fiers de vous ?");
 		-- Etiquette pour sortir de la boucle en cas de victoire
 		<<exit_loop>>
+        -- On affiche l'état final.
+        Affiche_Jeu(E);
 
 	end Joue_Partie;
 end Partie;

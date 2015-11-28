@@ -56,18 +56,23 @@ package body Puissance4 is
 
     function Est_Gagnant(E : Etat; J : Joueur) return Boolean is
         pions_aligne : Natural := 0;
-        i : Natural := 0;
         jMax : Natural := E'last(2);
         i_check : Natural := 0;
         j_check : Natural := 0;
     begin
         -- On cherche les colonnes où J a peut être mis son pion
         for i in E'range(1) loop
+
+            -- On remet les valeurs à 0 pour la prochaine itération.
+            pions_aligne := 0;
+            jMax := E'last(2);
+
             -- On place jMax sur la dernière ligne du plateau,
             while (E(i, jMax) = Vide) loop
                 exit when (jMax = 0);
                 jMax := jMax - 1;
             end loop;
+
             -- On vérifie si le pion en haut de cette colonne est bien de J
             if (E(i, jMax) = J) then
 
@@ -178,12 +183,6 @@ package body Puissance4 is
                     exit when (j_check = E'first(1));
                     j_check := j_check - 1;
                 end loop;
-
-                i_check := i;
-                j_check := jMax;
-                pions_aligne := 0;
-                jMax := 0;
-
             end if;
         end loop;
         
