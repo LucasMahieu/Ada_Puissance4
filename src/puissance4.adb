@@ -278,4 +278,15 @@ package body Puissance4 is
         return trafalgar;
     end Demande_Coup_Joueur2;
 
+    function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups.Liste is
+        coups : Liste_Coups.Liste;
+    begin
+        return coups;
+    end Coups_Possibles;
+
+    function Eval(E : Etat) return Integer is
+    begin
+        return 0;
+    end Eval;
+
 end Puissance4;

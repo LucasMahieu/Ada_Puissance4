@@ -3,8 +3,8 @@ with Ada.Integer_Text_IO;
 with Puissance4;
 with Participant;
 with Partie;
---with Liste_Generique; Décommenter quand implémentée
---with Moteur_Jeu; Décommenter quand implémentée
+with Liste_Generique;
+with Moteur_Jeu;
 
 use Ada.Text_IO;
 use Ada.Integer_Text_IO;
@@ -14,18 +14,30 @@ procedure Main2Joueurs is
 
 	package MyPuissance4 is new Puissance4(6,5,4);
 
-	-- definition d'une partie entre L'ordinateur en Joueur 1 et un humain en Joueur 2
+    package MyMoteur is new Moteur_Jeu(MyPuissance4.Etat,
+                                       MyPuissance4.Coup,
+                                       MyPuissance4.Jouer,
+                                       MyPuissance4.Est_Gagnant,
+                                       MyPuissance4.Est_Nul,
+                                       MyPuissance4.Affiche_Coup,
+                                       MyPuissance4.Liste_Coups,
+                                       MyPuissance4.Coups_Possibles,
+                                       MyPuissance4.Eval,
+                                       3,
+                                       Joueur2);
+
 	package MyPartie is new Partie(MyPuissance4.Etat,
-									MyPuissance4.Coup, 
-									"Pierre",
-									"Paul",
-									MyPuissance4.Jouer,
-									MyPuissance4.Est_Gagnant,
-									MyPuissance4.Est_Nul,
-									MyPuissance4.Afficher,
-									MyPuissance4.Affiche_Coup,
-									MyPuissance4.Demande_Coup_Joueur1,
-									MyPuissance4.Demande_Coup_Joueur2);
+                                   MyPuissance4.Coup, 
+                                   "Sarah Connor",
+                                   "TERMINATOR",
+                                   MyPuissance4.Jouer,
+                                   MyPuissance4.Est_Gagnant,
+                                   MyPuissance4.Est_Nul,
+                                   MyPuissance4.Afficher,
+                                   MyPuissance4.Affiche_Coup,
+                                   MyPuissance4.Demande_Coup_Joueur1,
+                                   MyMoteur.Choix_Coup);
+
 	use MyPartie;
 
 	P: MyPuissance4.Etat;
