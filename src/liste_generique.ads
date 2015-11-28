@@ -48,14 +48,14 @@ package Liste_Generique is
 private 
     type Cellule;
     type Liste is access Cellule;
-	type Cellule is record 
-		val: Element;
-		suiv: Liste;
-	end record;
+	--type Cellule is record 
+	--	val: Element;
+	--	suiv: Liste;
+	--end record;
 
     type Iterateur_Interne;
     type Iterateur is access Iterateur_Interne;
-	type Iterateur_Interne is Cellule;
+	--type Iterateur_Interne  Cellule;
    
 end Liste_Generique;
 

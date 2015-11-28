@@ -1,9 +1,16 @@
-with Ada.Unchecked_Desallocation;
+with Ada.Unchecked_Deallocation;
 with Ada.Text_Io; 
 use Ada.Text_Io; 
 
 package body Liste_Generique is
 	
+	type Cellule is record 
+		val: Element;
+		suiv: Liste;
+	end record;
+
+	type Iterateur_Interne is new Cellule;
+
 	procedure Libere is new Ada.Unchecked_Deallocation(Cellule, Liste);
 
 	----------------------------------------------
@@ -15,7 +22,7 @@ package body Liste_Generique is
 		while cour/=null loop
 			Put(cour.val);
 			Put(" ");
-			cour := cours.suiv;
+			cour := cour.suiv;
 		end loop;
 		New_Line;
 	end Affiche_Liste;
@@ -23,7 +30,7 @@ package body Liste_Generique is
 	----------------------------------------------
 	----- Insere l'element V en tete de liste
 	----------------------------------------------
-	procedure Inseree_Tete(V: in Element; L: in out Liste) is
+	procedure Insere_Tete(V: in Element; L: in out Liste) is
 		tmp : Liste;
 	begin
 		tmp := new Cellule;
@@ -35,7 +42,7 @@ package body Liste_Generique is
 			tmp.suiv := L;
 		end if;
 		L:=tmp;
-	end Inseree_Tete;
+	end Insere_Tete;
 
 	----------------------------------------------
 	----- Libère la liste 
@@ -57,7 +64,7 @@ package body Liste_Generique is
 	----------------------------------------------
 	----- Création d'une liste vide
 	----------------------------------------------
-	function Creer_Liste() return Liste  is
+	function Creer_Liste return Liste is
 	begin
 		return null;
 	end Creer_Liste;
@@ -78,13 +85,13 @@ package body Liste_Generique is
 	----------------------------------------------
 	----- Libere l'itérateur
 	----------------------------------------------
-	procedure Libere_Iterateur(It: in out Iterateurr) is
+	procedure Libere_Iterateur(It: in out Iterateur) is
 	begin
 		Libere(It);
 	end Libere_Iterateur;
 
 	----------------------------------------------
-	----- Avance d'une case dans la liste l'itérateur
+	----- Avance l'iterateur d'une case dans la liste
 	----------------------------------------------
 	procedure Suivant(It: in out Iterateur) is
 	begin
@@ -92,21 +99,28 @@ package body Liste_Generique is
 	end Suivant;
 
 	----------------------------------------------
+	----- Retourne l'élément courant de l'iterateur
+	----------------------------------------------
+	function Element_Courant(It : Iterateur) return Element  is
+	begin
+		return It.Element;
+	end Element_Courant;
+	----------------------------------------------
 	----- Verifie si il reste un élément à parcourir
 	----------------------------------------------
-	function A_Suivant(It: Iterateur) return Boolean is
+	function A_Suivant (It: Iterateur) return Boolean is
 		tmp:Iterateur;
 	begin
 		tmp:=new Iterateur_Interne;
 		tmp:=It;
 		Suivant(tmp);
-		if tmp:=null then
+		if tmp=null then
 			Libere_Iterateur(tmp);
 			return false;
 		else
 			Libere_Iterateur(tmp);
 			return true;
 		end if;
-	end A_Suivant(It: Iterateur;
+	end A_Suivant;
 
-end Liste_generique;
+end Liste_Generique;
