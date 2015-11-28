@@ -7,6 +7,10 @@ use Ada.Text_IO;
 
 package body Puissance4 is
 
+    -- On utilise la package Liste_Coups déclaré dans 
+    -- puissance4.ads
+    use Liste_Coups;
+
     procedure Initialiser(E : in out Etat) is
         i : Natural := 0;
         j : Natural := 0;
@@ -278,15 +282,194 @@ package body Puissance4 is
         return trafalgar;
     end Demande_Coup_Joueur2;
 
-    function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups.Liste is
-        coups : Liste_Coups.Liste;
+    function Coups_Possibles(E : Etat; J : Joueur) return Liste is
+        coups : Liste;
+        coup_ajout : Coup;
     begin
+        -- On crée la liste.
+        coups := Creer_Liste;
+
+        -- On parcourt les colonnes
+        for i in E'range(1) loop
+            -- Si la dernière case de la colonne est vide,
+            -- on peut réaliser un coup sur celle-ci.
+            -- On l'ajoute alors à la liste.
+            if (E(i, E'last(2)) = Vide) then
+                coup_ajout.j := J;
+                coup_ajout.col := i;
+                Insere_Tete(coup_ajout, coups);
+            end if;
+        end loop;
+
         return coups;
     end Coups_Possibles;
 
-    function Eval(E : Etat) return Integer is
+    function Eval(E : Etat, J : Joueur) return Integer is
+        pions_aligne : Natural := 0;
+        i : Natural := 0;
+        jMax : Natural := E'last(2);
+        i_check : Natural := 0;
+        j_check : Natural := 0;
     begin
-        return 0;
+        -- On cherche d'abord les cas terminaux.
+        if (Est_Nul(E)) then
+            -- Si la situation est un status quo, on renvoit 0.
+            return 0;
+        elsif (Est_Gagnant(E, J)) then
+            -- Si J est gagnant, on renvoit 100.
+            return 100;
+        elsif (Est_Gagnant(E, Adversaire(J))) then
+            -- Si son adversaire est gagnant, on renvoit -100.
+            return -100;
+        else
+            -- Dans les autre cas, on donne une estimation de l'état pour J
+
+
+------------------------EST_GAGNANT : COPIE
+    begin
+        -- On cherche les colonnes où J a peut être mis son pion
+        for i in E'range(1) loop
+            -- On place jMax sur la dernière ligne du plateau,
+            while (E(i, jMax) = Vide) loop
+                exit when (jMax = 0);
+                jMax := jMax - 1;
+            end loop;
+            -- On vérifie si le pion en haut de cette colonne est bien de J
+            if (E(i, jMax) = J) then
+
+                -- Diagonale y = x
+                -- Partie haute
+                i_check := i;
+                j_check := jMax;
+
+                while (E(i_check, j_check) = J) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    exit when (i_check = E'last(1) or j_check = E'last(2));
+                    i_check := i_check + 1;
+                    j_check := j_check + 1;
+                end loop;
+
+                -- Partie basse
+                i_check := i;
+                j_check := jMax;
+                -- On décrémente pour ne pas compter la case (i, j) deux fois.
+                pions_aligne := pions_aligne - 1;
+
+                while (E(i_check, j_check) = J) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    exit when (j_check = E'first(2) or i_check = E'first(1));
+                    i_check := i_check - 1;
+                    j_check := j_check - 1;
+                end loop;
+
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := 0;
+
+                -- Diagonale y = -x
+                -- Partie haute
+
+                while (E(i_check, j_check) = J) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    exit when (j_check = E'last(2) or i_check = E'first(1));
+                    i_check := i_check - 1;
+                    j_check := j_check + 1;
+                end loop;
+
+                -- Partie basse
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := pions_aligne - 1;
+
+                while (E(i_check, j_check) = J) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    exit when (j_check = E'first(2) or i_check = E'last(1));
+                    i_check := i_check + 1;
+                    j_check := j_check - 1;
+                end loop;
+
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := 0;
+
+                -- Ligne
+                -- Partie droite
+
+                while (E(i_check, j_check) = J) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    exit when (i_check = E'last(1));
+                    i_check := i_check + 1;
+                end loop;
+
+                -- Partie gauche
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := pions_aligne - 1;
+
+                while (E(i_check, j_check) = J) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    exit when (i_check = E'first(1));
+                    i_check := i_check - 1;
+                end loop;
+
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := 0;
+
+                -- Colonne
+
+                while (E(i_check, j_check) = J) loop
+                    pions_aligne := pions_aligne + 1;
+                    if (pions_aligne >= Puissance4.Pions_Victoire) then
+                        return true;
+                    end if;
+                    exit when (j_check = E'first(1));
+                    j_check := j_check - 1;
+                end loop;
+
+                i_check := i;
+                j_check := jMax;
+                pions_aligne := 0;
+                jMax := 0;
+
+            end if;
+        end loop;
+        
+        -- Si aucune des conditions d'au-dessus n'a été validée.
+        return false;
+
+    end Est_Gagnant;
+
+------------------------EST_GAGNANT : COPIE
+
+
+
+
+
+
+
+
+
+
+
     end Eval;
 
 end Puissance4;

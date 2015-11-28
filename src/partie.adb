@@ -23,7 +23,7 @@ package body Partie is
 				Affiche_Jeu(E);
 				-- Si son coup est gagnant, on quitte la boucle
 				if (Est_Gagnant(E, Joueur1)) then
-					Put_Line("Le joueur 1 a gagné ! Bravo à lui !!!");
+					Put_Line(Partie.Nom_Joueur1 & " a gagné ! Bravo à lui !!!");
 					-- On sort de la boucle
 					goto exit_loop;
 				end if;
@@ -39,7 +39,7 @@ package body Partie is
 				Affiche_Jeu(E);
 				-- Si son coup est gagnant, on quitte la boucle
 				if (Est_Gagnant(E, Joueur2)) then
-					Put_Line("Le joueur 2 a gagné ... Il a encore triché ...");
+					Put_Line(Partie.Nom_Joueur2 & " a gagné ... Il a encore triché ...");
 					-- On sort de la boucle
 					goto exit_loop;
 				end if;

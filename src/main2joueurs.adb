@@ -14,6 +14,7 @@ procedure Main2Joueurs is
 
 	package MyPuissance4 is new Puissance4(6,5,4);
 
+    -- Moteur de jeu pour le Joueur2.
     package MyMoteur is new Moteur_Jeu(MyPuissance4.Etat,
                                        MyPuissance4.Coup,
                                        MyPuissance4.Jouer,
