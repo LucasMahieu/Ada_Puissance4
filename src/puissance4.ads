@@ -43,6 +43,6 @@ package Puissance4 is
     -- Retourne la liste des coups possibles pour J a partir de l'etat
     function Coups_Possibles(E : Etat; J : Joueur) return Liste_Coups.Liste;
     -- Evaluation statique du jeu du point de vue de l'ordinateur
-    function Eval(E : Etat, J : Joueur) return Integer;
+    function Eval(E : Etat; J : Joueur) return Integer;
 
 end Puissance4;
