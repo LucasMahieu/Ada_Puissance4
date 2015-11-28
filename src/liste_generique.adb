@@ -20,13 +20,14 @@ package body Liste_Generique is
 	----- Affiche le contenu de la Liste
 	----------------------------------------------
 	procedure Affiche_Liste(L: in Liste) is
-		cour: Liste :=L;
+		it : Iterateur := Creer_Iterateur(L);
 	begin
-		while cour/=null loop
-			Put(cour.val);
+		while A_Suivant(it) loop
+			Put(Element_Courant(it));
 			Put(" ");
-			cour := cour.suiv;
+			Suivant(it);
 		end loop;
+		Put(Element_Courant(it));
 		New_Line;
 	end Affiche_Liste;
 
