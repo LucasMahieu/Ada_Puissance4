@@ -341,7 +341,7 @@ package body Puissance4 is
             -- On cherche la séquence maximale pions alignés qu'on peut compléter
             -- cela pour les deux joueurs.
             for i in E'range(1) loop
-                for j_it in E'range(1) loop
+                for j_it in E'range(2) loop
 
                     joueur_actuel := E(i,j_it);
                     exit when (joueur_actuel = Vide);
