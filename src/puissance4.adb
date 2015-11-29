@@ -239,6 +239,10 @@ package body Puissance4 is
             end loop;
             Put_Line("|");
         end loop;
+        for i in E'range(1) loop
+            Put(Integer'Image(i));
+        end loop;
+        New_Line;
     end Afficher;
 
 	----------------------------------------------
