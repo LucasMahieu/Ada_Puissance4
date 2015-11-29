@@ -74,34 +74,36 @@ package body Moteur_Jeu is
 		minMax : Integer;
 		tmp : Integer;
 		alea : Integer;
+		E_Suivant : Etat;
 	begin
+		E_Suivant := Etat_Suivant(E,C);
 		-- Si on est sur une feuille
 		if p=0 then
-		Put("Eval MinMax Feuille :" & Integer'IMAGE(Eval(E,J)));
+		Put("Eval MinMax Feuille :" & Integer'IMAGE(Eval(E_Suivant,J)));
 		New_Line;
-			return Eval(E,J);
+			return Eval(E_Suivant,J);
 			--Pas sur une feuille
 		else
 			-- Etat terminal
-			if Est_Gagnant(E, J)=true 
-				or Est_Gagnant(E,Adversaire(J))=true
-				or Est_Nul(E)=true then
-		Put("Eval MinMax etat Terminale :" & Integer'IMAGE(Eval(E,J)));
+			if Est_Gagnant(E_Suivant, J)=true 
+				or Est_Gagnant(E_Suivant,Adversaire(J))=true
+				or Est_Nul(E_Suivant)=true then
+		Put("Eval MinMax etat Terminale :" & Integer'IMAGE(Eval(E_Suivant,J)));
 		New_Line;
-				return Eval(E, J);
+				return Eval(E_Suivant, J);
 				-- Autres Etats
 			else
 		Put("Eval MinMax");
 		New_Line;
-				lcp := Coups_Possibles(E,J);
+				lcp := Coups_Possibles(E_Suivant,J);
 				it := Creer_Iterateur(lcp);
-				minMax := Eval_Min_Max(	E,
+				minMax := Eval_Min_Max(E_Suivant,
 										P-1,
 										Element_Courant(it),
 										Adversaire(J));
 				while A_Suivant(it) loop
 					Suivant(it);
-					tmp:= Eval_Min_Max(	E,
+					tmp:= Eval_Min_Max(	E_Suivant,
 										P-1,
 										Element_Courant(it),
 										Adversaire(J));
