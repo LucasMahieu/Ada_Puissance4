@@ -40,12 +40,12 @@ package body Moteur_Jeu is
         lcp := Coups_Possibles(E, JoueurMoteur);
         it := Creer_Iterateur(lcp);
         c := Element_Courant(it);
-        max := Eval_Min_Max(E, Moteur_Jeu.P - 1, c, JoueurMoteur);
+        max := Eval_Min_Max(E, Moteur_Jeu.P, c, JoueurMoteur);
         Put_Line("On choisit parmis :");
         Put(Integer'Image(max));
         while A_Suivant(it) loop
             Suivant(it);
-            tmp := Eval_Min_Max(E, Moteur_Jeu.P - 1,Element_Courant(it),JoueurMoteur);
+            tmp := Eval_Min_Max(E, Moteur_Jeu.P,Element_Courant(it),JoueurMoteur);
             Put(Integer'Image(tmp));
             if tmp > max then 
                 max := tmp;
@@ -80,17 +80,19 @@ package body Moteur_Jeu is
             return Eval(E_Courant,J);
         else
             --Pas sur une feuille
-            if Est_Gagnant(E_Courant, J) or Est_Gagnant(E_Courant, Adversaire(J)) or Est_Nul(E_Courant) then
+            if Est_Gagnant(E_Courant, J) or Est_Nul(E_Courant) then
                 -- Etat terminal
+                return Eval(E_Courant, J);
+            elsif Est_Gagnant(E_Courant, Adversaire(J)) then
                 return Eval(E_Courant, J);
             else
                 -- Autres Etats
                 lcp := Coups_Possibles(E_Courant, Adversaire(J));
                 it := Creer_Iterateur(lcp);
-                minMax := Eval_Min_Max(E_Courant, P - 1, Element_Courant(it), Adversaire(J));
+                minMax := Eval_Min_Max(E_Courant, P - 1, Element_Courant(it), J);
                 while A_Suivant(it) loop
                     Suivant(it);
-                    tmp:= Eval_Min_Max(E_Courant, P - 1, Element_Courant(it), Adversaire(J));
+                    tmp:= Eval_Min_Max(E_Courant, P - 1, Element_Courant(it), J);
                     if J = JoueurMoteur then
                         -- Si c'est le Moteur, on prend le MAX
                         if tmp > minMax then

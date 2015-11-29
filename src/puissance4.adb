@@ -4,6 +4,7 @@ with Ada.Integer_Text_IO;
 use Ada.Integer_Text_IO;
 use Participant;
 use Ada.Text_IO;
+with Moteur_Jeu;
 
 package body Puissance4 is
 
