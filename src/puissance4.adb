@@ -11,6 +11,9 @@ package body Puissance4 is
     -- puissance4.ads
     use Liste_Coups;
 
+	----------------------------------------------
+	----- Init : 
+	----------------------------------------------
     procedure Initialiser(E : in out Etat) is
         i : Natural := 0;
         j : Natural := 0;
@@ -35,6 +38,9 @@ package body Puissance4 is
 
     end Initialiser;
 
+	----------------------------------------------
+	----- Jouer : 
+	----------------------------------------------
     function Jouer(E : Etat; C : Coup) return Etat is
         jVide : Natural := 0;
         etatFinal : Etat := E;
@@ -54,6 +60,9 @@ package body Puissance4 is
         return etatFinal;
     end Jouer;
 
+	----------------------------------------------
+	----- Est gagnant : 
+	----------------------------------------------
     function Est_Gagnant(E : Etat; J : Joueur) return Boolean is
         pions_aligne : Natural := 0;
         jMax : Natural := E'last(2);
@@ -188,9 +197,11 @@ package body Puissance4 is
         
         -- Si aucune des conditions d'au-dessus n'a été validée.
         return false;
-
     end Est_Gagnant;
 
+	----------------------------------------------
+	----- Est NUl ? : 
+	----------------------------------------------
     function Est_Nul(E : Etat) return Boolean is
         count : Natural := 0;
         i : Natural := 0;
@@ -230,6 +241,9 @@ package body Puissance4 is
         end loop;
     end Afficher;
 
+	----------------------------------------------
+	----- Affiche coup
+	----------------------------------------------
     procedure Affiche_Coup(C : in Coup) is
     begin
         if (C.j = Joueur1) then
@@ -261,6 +275,9 @@ package body Puissance4 is
         return trafalgar;
     end Demande_Coup_Joueur1;
 
+	----------------------------------------------
+	----- Demande coup joueur 2 : 
+	----------------------------------------------
     function Demande_Coup_Joueur2(E : Etat) return Coup is
         col : Natural := 0;
         trafalgar : Coup;
@@ -299,10 +316,12 @@ package body Puissance4 is
                 Insere_Tete(coup_ajout, coups);
             end if;
         end loop;
-
         return coups;
     end Coups_Possibles;
 
+	----------------------------------------------
+	----- Eval
+	----------------------------------------------
     function Eval(E : Etat; J : Joueur) return Integer is
         -- Pour compter les pions alignés du joueur.
         pions_aligne_j : Natural := 0;
@@ -368,7 +387,6 @@ package body Puissance4 is
                             end if;
                         end if;
                     end loop;
-
                     -- Partie basse
                     i_check := i;
                     j_check := j_it;
