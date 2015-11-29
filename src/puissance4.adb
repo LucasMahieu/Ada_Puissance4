@@ -583,28 +583,29 @@ package body Puissance4 is
             -- une valeur d'évaluation en fonction du nombre et de
             -- la taille des séquences maximales trouvéés.
 
-            put_line("pions_aligne_j = " & Integer'Image(pions_aligne_j));
-            put_line("pions_aligne_a = " & Integer'Image(pions_aligne_a));
-            put_line("compteur_j = " & Integer'Image(compteur_j));
-            put_line("compteur_a = " & Integer'Image(compteur_a));
+--            put_line("pions_aligne_j = " & Integer'Image(pions_aligne_j));
+--            put_line("pions_aligne_a = " & Integer'Image(pions_aligne_a));
+--            put_line("compteur_j = " & Integer'Image(compteur_j));
+--            put_line("compteur_a = " & Integer'Image(compteur_a));
 
             if (pions_aligne_j > pions_aligne_a) then
-                return pions_aligne_j * compteur_j;
+                --return pions_aligne_j * compteur_j;
+                return pions_aligne_j;
             elsif (pions_aligne_a > pions_aligne_j) then
-                return -(pions_aligne_a * compteur_a);
+                return -(pions_aligne_a);
             else
                 -- Si les deux joueurs ont des séquences complétables de mêmes tailles,
                 -- on regarde leur nombre.
-                if (compteur_j > compteur_a) then
+--                if (compteur_j > compteur_a) then
                     -- Cas où l'état actuel est favorable (on renvoit un nombre positif).
-                    return pions_aligne_j * compteur_j;
-                elsif (compteur_a > compteur_j) then
+--                    return pions_aligne_j * compteur_j;
+--                elsif (compteur_a > compteur_j) then
                     -- Cas où l'état actuel est défavorable (nombre négatif).
-                    return -(pions_aligne_a * compteur_a);
-                else
+--                    return -(pions_aligne_a * compteur_a);
+--                else
                     -- Cas d'égalité : on renvoit 0.
                     return 0;
-                end if;
+--                end if;
             end if;
 
         end if;
