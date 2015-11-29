@@ -331,7 +331,7 @@ package body Puissance4 is
         pions_aligne_a : Natural := 0;
         -- Nombre de séquences maximales de pions alignés
         compteur_a : Natural := 1;
-        -- Maximul des pions alignés pour l'itération en cours.
+        -- Maximul des pions alignés et complétables pour l'itération en cours.
         pions_alignes_max : Natural := 0;
         -- Pions alignés pour l'itération en cours
         pions_aligne : Integer := 0;
@@ -362,9 +362,12 @@ package body Puissance4 is
                 for j_it in E'range(2) loop
 
                     joueur_actuel := E(i,j_it);
+                    -- Si la case est vide, toutes les cases au dessus
+                    -- seront vides aussi.
                     exit when (joueur_actuel = Vide);
                     pions_alignes_max := 0;
                     possible := false;
+                    pions_aligne := 0;
 
 
                     -- Diagonale y = x
@@ -393,7 +396,7 @@ package body Puissance4 is
                     -- On décrémente pour ne pas compter la case (i, j) deux fois.
                     pions_aligne := pions_aligne - 1;
 
-                    while (E(i_check, j_check) = J) loop
+                    while (E(i_check, j_check) = joueur_actuel) loop
                         pions_aligne := pions_aligne + 1;
                         exit when (j_check = E'first(2) or i_check = E'first(1));
                         i_check := i_check - 1;
@@ -422,7 +425,7 @@ package body Puissance4 is
                     -- Diagonale y = -x
                     -- Partie haute
 
-                    while (E(i_check, j_check) = J) loop
+                    while (E(i_check, j_check) = joueur_actuel) loop
                         pions_aligne := pions_aligne + 1;
                         exit when (j_check = E'last(2) or i_check = E'first(1));
                         i_check := i_check - 1;
@@ -443,7 +446,7 @@ package body Puissance4 is
                     j_check := j_it;
                     pions_aligne := pions_aligne - 1;
 
-                    while (E(i_check, j_check) = J) loop
+                    while (E(i_check, j_check) = joueur_actuel) loop
                         pions_aligne := pions_aligne + 1;
                         exit when (j_check = E'first(2) or i_check = E'last(1));
                         i_check := i_check + 1;
@@ -472,7 +475,7 @@ package body Puissance4 is
                     -- Ligne
                     -- Partie droite
 
-                    while (E(i_check, j_check) = J) loop
+                    while (E(i_check, j_check) = joueur_actuel) loop
                         pions_aligne := pions_aligne + 1;
                         exit when (i_check = E'last(1));
                         i_check := i_check + 1;
@@ -492,7 +495,7 @@ package body Puissance4 is
                     j_check := j_it;
                     pions_aligne := pions_aligne - 1;
 
-                    while (E(i_check, j_check) = J) loop
+                    while (E(i_check, j_check) = joueur_actuel) loop
                         pions_aligne := pions_aligne + 1;
                         exit when (i_check = E'first(1));
                         i_check := i_check - 1;
@@ -518,20 +521,28 @@ package body Puissance4 is
                     possible := false;
 
                     -- Colonne
+                    -- Vers le haut.
 
-                    while (E(i_check, j_check) = J) loop
+                    while (E(i_check, j_check) = joueur_actuel) loop
                         pions_aligne := pions_aligne + 1;
-                        exit when (j_check = E'first(1));
-                        j_check := j_check - 1;
+                        exit when (j_check = E'last(2));
+                        j_check := j_check + 1;
                         -- Pour compléter la séquence, on regarde si la case
                         -- est Vide.
                         if (E(i_check, j_check) = Vide) then
-                            -- On regarde si on peut bien la compléter,
-                            -- si la case n'est pas "en l'air".
-                            if (j_check = 0 or else E(i_check, j_check - 1) /= Vide) then
-                                possible := true;
-                            end if;
+                            possible := true;
                         end if;
+                    end loop;
+
+                    i_check := i;
+                    j_check := j_it;
+                    pions_aligne := pions_aligne - 1;
+                    -- Vers le bas
+
+                    while (E(i_check, j_check) = joueur_actuel) loop
+                        pions_aligne := pions_aligne + 1;
+                        exit when (j_check = E'first(2));
+                        j_check := j_check - 1;
                     end loop;
 
                     -- On regarde si ce nouvel alignement est le plus grand.
@@ -565,7 +576,6 @@ package body Puissance4 is
                             compteur_a := 1;
                         end if;
                     end if;
-
                 end loop;
             end loop;
 
@@ -573,15 +583,28 @@ package body Puissance4 is
             -- une valeur d'évaluation en fonction du nombre et de
             -- la taille des séquences maximales trouvéés.
 
-            if (pions_aligne_j * compteur_j > pions_aligne_a * compteur_a) then
-                -- Cas où l'état actuel est favorable (on renvoit un nombre positif).
+            put_line("pions_aligne_j = " & Integer'Image(pions_aligne_j));
+            put_line("pions_aligne_a = " & Integer'Image(pions_aligne_a));
+            put_line("compteur_j = " & Integer'Image(compteur_j));
+            put_line("compteur_a = " & Integer'Image(compteur_a));
+
+            if (pions_aligne_j > pions_aligne_a) then
                 return pions_aligne_j * compteur_j;
-            elsif (pions_aligne_j * compteur_j < pions_aligne_a * compteur_a) then
-                -- Cas où l'état actuel est défavorable (nombre négatif).
+            elsif (pions_aligne_a > pions_aligne_j) then
                 return -(pions_aligne_a * compteur_a);
             else
-                -- Cas d'égalité : on renvoit 0.
-                return 0;
+                -- Si les deux joueurs ont des séquences complétables de mêmes tailles,
+                -- on regarde leur nombre.
+                if (compteur_j > compteur_a) then
+                    -- Cas où l'état actuel est favorable (on renvoit un nombre positif).
+                    return pions_aligne_j * compteur_j;
+                elsif (compteur_a > compteur_j) then
+                    -- Cas où l'état actuel est défavorable (nombre négatif).
+                    return -(pions_aligne_a * compteur_a);
+                else
+                    -- Cas d'égalité : on renvoit 0.
+                    return 0;
+                end if;
             end if;
 
         end if;

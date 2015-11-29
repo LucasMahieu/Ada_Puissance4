@@ -24,7 +24,7 @@ procedure Main2Joueurs is
                                        MyPuissance4.Liste_Coups,
                                        MyPuissance4.Coups_Possibles,
                                        MyPuissance4.Eval,
-                                       3,
+                                       0,
                                        Joueur2);
 
 	package MyPartie is new Partie(MyPuissance4.Etat,

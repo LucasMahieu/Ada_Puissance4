@@ -21,7 +21,7 @@ package body Moteur_Jeu is
 		Reset(Generateur); 
 		Nombre:=Random(Generateur); 
 		return Nombre; 
-		Put("Nb Alea : " & Integer'IMAGE(Nombre) );
+		--Put("Nb Alea : " & Integer'IMAGE(Nombre) );
 	end nb_alea;
 
 	----------------------------------------------
@@ -41,25 +41,23 @@ package body Moteur_Jeu is
 		it := Creer_Iterateur(lcp);
 		c := Element_Courant(it);
 		max := Eval_Min_Max(E, Moteur_Jeu.P,c,JoueurMoteur);
-	Put("Choix coup :" & Integer'IMAGE(max) & "colonne:");
-	New_Line;
-		while A_Suivant(it) loop
-			Suivant(it);
-			tmp := Eval_Min_Max(E, Moteur_Jeu.P,Element_Courant(it),JoueurMoteur);
-			alea := nb_alea;
-			Put("Choix coup :" & Integer'IMAGE(tmp));
-			New_Line;
-			if tmp > max then 
-				max := tmp;
-				c := Element_Courant(it);
-			elsif tmp = max then
-				alea := nb_alea;
-				if alea > 5 then
-					max := tmp;
-					c := Element_Courant(it);
-				end if;
-			end if;
-		end loop;
+        Put_Line("Etat pour JoueurMoteur : " & Integer'Image(max));
+	--Put("Choix coup :" & Integer'IMAGE(max) & "colonne:");
+--		while A_Suivant(it) loop
+--			Suivant(it);
+--			tmp := Eval_Min_Max(E, Moteur_Jeu.P,Element_Courant(it),JoueurMoteur);
+--			--Put("Choix coup :" & Integer'IMAGE(tmp));
+--			if tmp > max then 
+--				max := tmp;
+--				c := Element_Courant(it);
+--			elsif tmp = max then
+--				alea := nb_alea;
+--				if alea > 5 then
+--					max := tmp;
+--					c := Element_Courant(it);
+--				end if;
+--			end if;
+--		end loop;
 		return c;
 	end Choix_Coup;
 
@@ -77,22 +75,19 @@ package body Moteur_Jeu is
 	begin
 		-- Si on est sur une feuille
 		if p=0 then
-		Put("Eval MinMax Feuille :" & Integer'IMAGE(Eval(E,J)));
-		New_Line;
+		--Put("Eval MinMax Feuille :" & Integer'IMAGE(Eval(E,J)));
 			return Eval(E,J);
 			--Pas sur une feuille
 		else
 			-- Etat terminal
-			if Est_Gagnant(E, J)=true 
-				or Est_Gagnant(E,Adversaire(J))=true
-				or Est_Nul(E)=true then
-		Put("Eval MinMax etat Terminale :" & Integer'IMAGE(Eval(E,J)));
-		New_Line;
+			if Est_Gagnant(E, J) 
+				or Est_Gagnant(E, Adversaire(J))
+				or Est_Nul(E) then
+		--Put("Eval MinMax etat Terminale :" & Integer'IMAGE(Eval(E,J)));
 				return Eval(E, J);
 				-- Autres Etats
 			else
-		Put("Eval MinMax");
-		New_Line;
+		--Put("Eval MinMax");
 				lcp := Coups_Possibles(E,J);
 				it := Creer_Iterateur(lcp);
 				minMax := Eval_Min_Max(	E,

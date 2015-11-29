@@ -1,5 +1,5 @@
 cake:
-	gnatmake -D build src/main2joueurs.adb
+	gnatmake -D build -g src/main2joueurs.adb
 pake:
 	gnatmake -D build src/testListe.adb
 take:
