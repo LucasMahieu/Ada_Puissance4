@@ -41,9 +41,12 @@ package body Moteur_Jeu is
         it := Creer_Iterateur(lcp);
         c := Element_Courant(it);
         max := Eval_Min_Max(E, Moteur_Jeu.P - 1, c, JoueurMoteur);
+        Put_Line("On choisit parmis :");
+        Put(Integer'Image(max));
         while A_Suivant(it) loop
             Suivant(it);
             tmp := Eval_Min_Max(E, Moteur_Jeu.P - 1,Element_Courant(it),JoueurMoteur);
+            Put(Integer'Image(tmp));
             if tmp > max then 
                 max := tmp;
                 c := Element_Courant(it);
@@ -55,6 +58,7 @@ package body Moteur_Jeu is
                 end if;
             end if;
         end loop;
+        new_line;
         return c;
     end Choix_Coup;
 
@@ -81,7 +85,7 @@ package body Moteur_Jeu is
                 return Eval(E_Courant, J);
             else
                 -- Autres Etats
-                lcp := Coups_Possibles(E_Courant, J);
+                lcp := Coups_Possibles(E_Courant, Adversaire(J));
                 it := Creer_Iterateur(lcp);
                 minMax := Eval_Min_Max(E_Courant, P - 1, Element_Courant(it), Adversaire(J));
                 while A_Suivant(it) loop
