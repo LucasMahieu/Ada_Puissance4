@@ -30,7 +30,7 @@ package body Moteur_Jeu is
     ----- P profondeur de recherche
     ----------------------------------------------
     function Choix_Coup(E: Etat) return Coup is
-        c : Coup;
+        choicoup : Coup;
         lcp : Liste_Coups.Liste;
         it : Iterateur;
         max : Integer;
@@ -39,60 +39,58 @@ package body Moteur_Jeu is
     begin
         lcp := Coups_Possibles(E, JoueurMoteur);
         it := Creer_Iterateur(lcp);
-        c := Element_Courant(it);
-        max := Eval_Min_Max(E, Moteur_Jeu.P, c, JoueurMoteur);
+        choicoup := Element_Courant(it);
+        max := Eval_Min_Max(E, P, choicoup, Adversaire(JoueurMoteur));
         Put_Line("On choisit parmis :");
         Put(Integer'Image(max));
         while A_Suivant(it) loop
             Suivant(it);
-            tmp := Eval_Min_Max(E, Moteur_Jeu.P,Element_Courant(it),JoueurMoteur);
+            tmp := Eval_Min_Max(E, P, Element_Courant(it), Adversaire(JoueurMoteur));
             Put(Integer'Image(tmp));
             if tmp > max then 
                 max := tmp;
-                c := Element_Courant(it);
+                choicoup := Element_Courant(it);
             elsif tmp = max then
                 alea := nb_alea;
                 if alea > 5 then
-                    max := tmp;
-                    c := Element_Courant(it);
+                    choicoup := Element_Courant(it);
                 end if;
             end if;
         end loop;
         new_line;
-        return c;
+        return choicoup;
     end Choix_Coup;
 
 	----------------------------------------------
 	----- Evaluer l'coup en fonction de l'etat
 	----------------------------------------------
-    function Eval_Min_Max(E: Etat; P:Natural; C: Coup; J: Joueur) return Integer is
+    function Eval_Min_Max(E: Etat; Prof:Natural; C: Coup; J: Joueur) return Integer is
 
         lcp : Liste_Coups.Liste;
         it : Iterateur;
         minMax : Integer;
         tmp : Integer;
         E_courant : Etat := E;
+        prof_courant : Natural := Prof;
     begin
         -- On applique sur l'état courant le coup passé en paramètre.
         E_courant := Etat_Suivant(E, C);
-        if P = 0 then
+        if Prof = 0 then
             -- Si on est sur une feuille
-            return Eval(E_Courant,J);
+            return Eval(E_Courant, JoueurMoteur);
         else
             --Pas sur une feuille
-            if Est_Gagnant(E_Courant, J) or Est_Nul(E_Courant) then
+            if Est_Gagnant(E_Courant, J) or Est_Nul(E_Courant) or Est_Gagnant(E_Courant, Adversaire(J)) then
                 -- Etat terminal
-                return Eval(E_Courant, J);
-            elsif Est_Gagnant(E_Courant, Adversaire(J)) then
-                return Eval(E_Courant, J);
+                return Eval(E_Courant, JoueurMoteur);
             else
                 -- Autres Etats
-                lcp := Coups_Possibles(E_Courant, Adversaire(J));
+                lcp := Coups_Possibles(E_Courant, J);
                 it := Creer_Iterateur(lcp);
-                minMax := Eval_Min_Max(E_Courant, P - 1, Element_Courant(it), J);
+                minMax := Eval_Min_Max(E_Courant, prof_courant - 1, Element_Courant(it), Adversaire(J));
                 while A_Suivant(it) loop
                     Suivant(it);
-                    tmp:= Eval_Min_Max(E_Courant, P - 1, Element_Courant(it), J);
+                    tmp:= Eval_Min_Max(E_Courant, prof_courant - 1, Element_Courant(it), Adversaire(J));
                     if J = JoueurMoteur then
                         -- Si c'est le Moteur, on prend le MAX
                         if tmp > minMax then

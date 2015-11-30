@@ -310,8 +310,10 @@ package body Puissance4 is
         -- On crée la liste.
         coups := Creer_Liste;
 
-        -- On parcourt les colonnes
-        for i in E'range(1) loop
+        -- On parcourt les colonnes dans le sens inverse afin
+        -- d'avoir l'affichage dans le bon sens puisqu'on ajoute
+        -- en tête.
+        for i in reverse E'range(1) loop
             -- Si la dernière case de la colonne est vide,
             -- on peut réaliser un coup sur celle-ci.
             -- On l'ajoute alors à la liste.

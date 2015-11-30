@@ -25,7 +25,7 @@ procedure Main2Joueurs is
                                        MyPuissance4.Coups_Possibles,
                                        MyPuissance4.Eval,
                                        3,
-                                       Joueur2);
+                                       Joueur1);
 
 	package MyPartie is new Partie(MyPuissance4.Etat,
                                    MyPuissance4.Coup, 
@@ -36,9 +36,9 @@ procedure Main2Joueurs is
                                    MyPuissance4.Est_Nul,
                                    MyPuissance4.Afficher,
                                    MyPuissance4.Affiche_Coup,
-                                   MyPuissance4.Demande_Coup_Joueur1,
-                                   MyMoteur.Choix_Coup);
-                                   --MyPuissance4.Demande_Coup_Joueur2);
+                                   --MyPuissance4.Demande_Coup_Joueur1,
+                                   MyMoteur.Choix_Coup,
+                                   MyPuissance4.Demande_Coup_Joueur2);
 
 	use MyPartie;
 
@@ -52,5 +52,8 @@ begin
 
 	MyPuissance4.Initialiser(P);
 
-	Joue_Partie(P, Joueur2);
+    P(0,0) := Joueur2;
+    P(4,0) := Joueur1;
+
+	Joue_Partie(P, Joueur1);
 end Main2Joueurs;

@@ -40,7 +40,7 @@ private
     -- P : profondeur a laquelle cette evaluation doit etre realisee
     -- C : Coup a evaluer
     -- J : Joueur qui realise le coup
-    function Eval_Min_Max(E : Etat; P : Natural; C : Coup; J : Joueur)
+    function Eval_Min_Max(E : Etat; Prof : Natural; C : Coup; J : Joueur)
         return Integer;
    
 end Moteur_Jeu;
