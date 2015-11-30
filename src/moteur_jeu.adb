@@ -40,12 +40,12 @@ package body Moteur_Jeu is
         lcp := Coups_Possibles(E, JoueurMoteur);
         it := Creer_Iterateur(lcp);
         choicoup := Element_Courant(it);
-        max := Eval_Min_Max(E, P, choicoup, Adversaire(JoueurMoteur));
+        max := Eval_Min_Max(E, P - 1, choicoup, Adversaire(JoueurMoteur));
         Put_Line("On choisit parmis :");
         Put(Integer'Image(max));
         while A_Suivant(it) loop
             Suivant(it);
-            tmp := Eval_Min_Max(E, P, Element_Courant(it), Adversaire(JoueurMoteur));
+            tmp := Eval_Min_Max(E, P - 1, Element_Courant(it), Adversaire(JoueurMoteur));
             Put(Integer'Image(tmp));
             if tmp > max then 
                 max := tmp;
