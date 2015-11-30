@@ -6,7 +6,9 @@ with Ada.Numerics.Discrete_Random;
 with Moteur_Jeu;
 
 package body Moteur_Jeu is
+
     use Moteur_Jeu.Liste_Coups;
+
     subtype Inter is Integer range 0..10;
     package Aleatoire is new Ada.Numerics.Discrete_Random(Inter);
     use Aleatoire;
@@ -41,12 +43,9 @@ package body Moteur_Jeu is
         it := Creer_Iterateur(lcp);
         choicoup := Element_Courant(it);
         max := Eval_Min_Max(E, P - 1, choicoup, Adversaire(JoueurMoteur));
-        Put_Line("On choisit parmis :");
-        Put(Integer'Image(max));
         while A_Suivant(it) loop
             Suivant(it);
             tmp := Eval_Min_Max(E, P - 1, Element_Courant(it), Adversaire(JoueurMoteur));
-            Put(Integer'Image(tmp));
             if tmp > max then 
                 max := tmp;
                 choicoup := Element_Courant(it);

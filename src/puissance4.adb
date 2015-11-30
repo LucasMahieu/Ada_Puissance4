@@ -333,12 +333,8 @@ package body Puissance4 is
         -- Pour compter les pions alignés du joueur.
         pions_aligne_j : Natural := 0;
         -- Nombre de séquences maximales de pions alignés
-        compteur_j : Natural := 1;
-        -- Pour compter les pions alignés de l'adversaire.
         pions_aligne_a : Natural := 0;
         -- Nombre de séquences maximales de pions alignés
-        compteur_a : Natural := 1;
-        -- Maximul des pions alignés et complétables pour l'itération en cours.
         pions_alignes_max : Natural := 0;
         -- Pions alignés pour l'itération en cours
         pions_aligne : Integer := 0;
@@ -560,59 +556,29 @@ package body Puissance4 is
                     -- A ce stade, on a pour cette itération le nombre
                     -- maximal de pions alignés.
 
-                    -- Si on trouve une séquence supérieure ou égale à celle
-                    -- déjà enregistrée.
                     if (joueur_actuel = J and pions_alignes_max >= pions_aligne_j) then
-                        if (pions_alignes_max = pions_aligne_j) then
-                            -- On compte le nombre de fois où on
-                            -- a trouvé une telle séquence.
-                            compteur_j := compteur_j + 1;
-                        else
-                            pions_aligne_j := pions_alignes_max;
-                            compteur_j := 1;
-                        end if;
-
-                    -- Idem pour l'adversaire.
+                        -- Si on trouve une séquence supérieure ou égale à celle
+                        -- déjà enregistrée.
+                        pions_aligne_j := pions_alignes_max;
                     elsif (joueur_actuel = Adversaire(J) and pions_alignes_max >= pions_aligne_a) then
-                        if (pions_alignes_max = pions_aligne_a) then
-                            -- On compte le nombre de fois où on
-                            -- a trouvé une telle séquence.
-                            compteur_a := compteur_a + 1;
-                        else
-                            pions_aligne_a := pions_alignes_max;
-                            compteur_a := 1;
-                        end if;
+                        -- Idem pour l'adversaire.
+                        pions_aligne_a := pions_alignes_max;
                     end if;
+
                 end loop;
             end loop;
 
             -- Après avoir parcouru tout le table, on renvoit
-            -- une valeur d'évaluation en fonction du nombre et de
+            -- une valeur d'évaluation en fonction de
             -- la taille des séquences maximales trouvéés.
 
---            put_line("pions_aligne_j = " & Integer'Image(pions_aligne_j));
---            put_line("pions_aligne_a = " & Integer'Image(pions_aligne_a));
---            put_line("compteur_j = " & Integer'Image(compteur_j));
---            put_line("compteur_a = " & Integer'Image(compteur_a));
-
             if (pions_aligne_j > pions_aligne_a) then
-                --return pions_aligne_j * compteur_j;
                 return pions_aligne_j;
             elsif (pions_aligne_a > pions_aligne_j) then
                 return -(pions_aligne_a);
             else
-                -- Si les deux joueurs ont des séquences complétables de mêmes tailles,
-                -- on regarde leur nombre.
---                if (compteur_j > compteur_a) then
-                    -- Cas où l'état actuel est favorable (on renvoit un nombre positif).
---                    return pions_aligne_j * compteur_j;
---                elsif (compteur_a > compteur_j) then
-                    -- Cas où l'état actuel est défavorable (nombre négatif).
---                    return -(pions_aligne_a * compteur_a);
---                else
-                    -- Cas d'égalité : on renvoit 0.
-                    return 0;
---                end if;
+                -- Cas d'égalité : on renvoit 0.
+                return 0;
             end if;
 
         end if;
