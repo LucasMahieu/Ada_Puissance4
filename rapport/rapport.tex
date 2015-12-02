@@ -70,6 +70,8 @@
         celle qui le demandait à l'utilisateur.
         Dans notre code, seules le package Puissance4 est unique à ce jeu et tout le reste peut être gardé si on change de jeu.
     }
+
+    \newpage
 } 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -169,10 +171,45 @@
 
     \subsection{Résultats généraux}
     {
+        Dans l'ensemble le code fonctionne, en jouant normalement il est assez difficile de gagner contre l'ordinateur à moins
+        d'utiliser des stratégies compliquées. Les résultats sont très satisfaisants. Le jeu est fluide et l'affichage agréable
+        pour des dimensions de tableau qui ne sont pas trop grandes.
     }
 
     \subsection{Influence de la profondeur de recherche}
     {
+        On remarque aussi que la profondeur de recherche de l'ordinateur a une influence directe sur son efficacité. On a effectué
+        plusieurs essais en faisant jouer deux ordinateurs l'un contre l'autre ayant chacun une profondeur différente. On regroupe
+        ces résultats dans un tableau. On y fait figurer le nombre de victoire de chaque joueur et les matchs nuls avec des
+        profondeurs différentes pour chacun : "x / y" où x est la profondeur de recherche du Joueur1 et y celle du Joueur2.
+        On utilise pour ce test un puissance 4 normal (7, 6, 4).
+
+        \begin{figure}[h]
+            \begin{center}
+                \begin{tabular}{|c|c|c|c|c|}
+                    \hline
+                            &1/3&3/3&3/6&6/6\\
+                    \hline
+                    \hline
+                    Joueur1 & 2 & 5 & 2 & 2 \\
+                    \hline
+                    Joueur2 & 8 & 5 & 8 & 7 \\
+                    \hline
+                    Nul     & 0 & 0 & 0 & 1 \\
+                    \hline
+                    \hline
+                \end{tabular}
+                \caption{Nombre de victoire par joueur et de matchs nuls et faisant varier P pour 10 executions}
+                \label{table-temps}
+            \end{center}
+        \end{figure}
+
+        On remarque qu'en moyenne, la probabilité de victorie augmente avec la profondeur. On remarque cependant des résultats
+        incohérentes avec cette théorique pour le cas 6 / 6. On peut expliquer ceci par une mauvaise gestion de notre algorithme
+        Eval proche des bords, ces parties étant prolongées on arrive souvent dans ces cas-là. De plus pour ces tests, le Joueur1
+        commençait, on peut peut-être en déduire un avantage pour le Joueur2.
+        On a aussi remarque que pour les cas 6 / 6, le jeu étant plus lent à s'executer : ce qui est normal étant donné la
+        récursivité de l'algorithme.
     }
 }
 
