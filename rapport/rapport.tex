@@ -83,7 +83,7 @@
 
     \subsection{Déroulement d'une partie}
     {
-        C'est la procédure Joue_Partie qui lance la partie en commençant par le Joueur donné en paramètre. On effectue une boucle
+        C'est la procédure Joue\_Partie qui lance la partie en commençant par le Joueur donné en paramètre. On effectue une boucle
         while qui vérifie que l'état n'est pas en status quo puis on passe d'un joueur à l'autre en effectuant à chaque fois
         la même séquence de fonctions du package Partie :
         \begin{enumerate}
@@ -103,10 +103,54 @@
 
     \subsection{Vérification de l'état gagnant}
     {
+        Comme la fonction Est\_Gagnant est appelée après chaque coup, il est inutile de vérifier un alignement de pion pour
+        tous les pions de la grille. On ne vérifie alors l'alignement seulement pour les pions que le Joueur donné en paramètre
+        est susceptible d'avoir posé, c'est à dire les pions du joueur aux sommets des piles de pions : les dernières cases
+        non vides.
+        Pour ces pions là, on vérifie ses voisins pour trouver un alignement de pions suffisant pour la victoire en effectuant
+        des boucles while (E(i\_test, j\_test) = J) et en incrémentant un comtpeur à chaque itération. On renvoit true dès que
+        on a trouvé un tel alignement. On vérifie les directions suivantes à chaque fois :
+        \begin{enumerate}
+            \item Diagonale $y = x$ (sens montant et descendant)
+            \item Diagonale $y = -x$ (sens montant et descendant)
+            \item Ligne horizontale (à droite et à gauche)
+            \item Colonne (sous le pion posé)
+        \end{enumerate}
+        On vérifie bien sur à chaque fois que l'on ne dépasse pas les dimensions du tableau en faisant des exit sur ces boucles
+        while quand nécessaires. Si on n'a pas trouvé d'alignements, on renvoit false.
+        On peut borner le coût en pire cas de cet algorithme par :
+        \begin{center}
+            $7 \times Largeur \times Pions\_Victoires$
+        \end{center}
+        7 correspond à tous les sens exploré pour chaque pion.
     }
 
     \subsection{Evaluation statique}
     {
+        L'évaluation statique est le coeur de l'algorithmique Min-Max et donc l'efficacité de cette fonction correspond à l'
+        efficacité du jeu de l'ordinateur. Notre fonction renvoit Pions\_Victoire en cas d'état gagnant pour le Joueur ou
+        l'opposé pour l'adversaire.
+        Dans les autres cas : on parcourt tout le tableau et on regarde pour chaque pion s'il fait partie d'une séquence
+        complétable. On entend par séquence complétable un alignement de pions qui peut être complété par un nouveau pion.
+        Pour cela, il faut bien vérifier que le pion que l'on souhaite ajouter ne repose pas sur une case Vide : il faut un pion au
+        dessous pour le supporter.
+        De même que pour la fonction Est\_Gagnant, on regarde dans toutes les directions et prenant aussi la colonne montante (sur
+        le pion considéré) et on garde la taille de la plus grande séquence complétable que l'on trouve.
+        A la fin du parcours de tout le tableau, on a pour les deux joueurs, la taille de leur plus grande séquence complétable
+        on renvoit 0 si ces tailles sont identiques et + ou - la taille suivant que c'est le JoueurMoteur qui a la plus grande
+        ou l'adversaire.
+        Cette méthode fournit une bonne évaluation statique du jeu, cependant, on ne traite pas les cas où la séquence n'est pas
+        complétable quand il n'y a pas assez de place et on ne compte pas le nombre de séquence de même taille qu'on rencontre.
+        En effet si le Joueur1 a 3 séquence de 3 pions alignés, l'évaluation lui devrait être favorable par rapport au Joueur2
+        qui aurait qu'une seule séquence de 3 pions. Cette distinction n'est pas faite car en parcourant tous les pions on
+        compterait une même séquence plusieures fois.
+        Le coût de cet algorithme en pire cas peut être borné par :
+        \begin{center}
+            $14 \times Largeur \times Pions\_Victoires + 8 \times Largeur \times Hauteur \times (Pions\_Victoire - 1)$
+        \end{center}
+        Cette fonction vérifiant si le Joueur ou l'adversaire ayant gagné, on doit refaire les mêmes opérations deux fois.
+        Ensuite, on vérifie pour les 4 directions et dans les deux sens tous les pions de la grille avec des while qui
+        s'executent au maximum Pions\_Victoire - 1.
     }
 
     \subsection{Algorithme Min-Max}
