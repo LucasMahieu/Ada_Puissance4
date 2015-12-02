@@ -33,9 +33,43 @@
     % Présentation
     % Tableau de joueurs
     % Liste Générique
+    % Généricité
+
     Notre programme applique des packages de jeux génériques au jeu du puissance 4.
-    Nous allons ci-dessous décrire chacun de ces packages.
-    Le Package Liste Générique que nous avons créé permet de créer ou supprimer une liste, d'y ajouter des éléments, ainsi que de de gérer des itérateurs. L'utilisation des Itérateurs est particulièrement utiles pour s'affranchir du mécanisme des listes. Un fois créé, il suffie de lui appliquer la fonction {\em Suivant} pour le placer sur l'élément suivant ou {\em Element\_Courant} pour récupérer la valeur courante de la liste. Cela permet une utilisation plus simple et plus sûre de liste.
+    Nous allons ci-dessous décrire les structures de données principales utilisées, les algorithmes importants et nos résultats.
+
+    \subsection{Tableau de joueurs}
+    {
+        Pour faciliter la représentation du tableau et de tous les calculs dans notre code, nous avons ajouté à l'énumération
+        Joueur un dernier membre Vide. Ainsi, pour représenter le tableau (structure Etat), nous avons utilisé un tableau 
+        de Joueur de taille $Largeur  \times Hauteur$ et chaque case peut donc être : Joueur1, Joueur2 ou Vide. 
+        Ceci a grandement facilité tout nos algorithmes d'affichage, et de calcul d'état. De plus, les coups étant joué à la suite
+        et à cause de la gravité terrestre, nous avons choisi de représenter Coup par un Joueur et une colonne du tableau. Il est
+        alors simple de savoir où est le pion que le joueur vient de poser.
+    }
+
+    \subsection{Listes}
+    {
+        Le package Liste Générique que nous avons créé permet de créer ou de supprimer une liste, d'y ajouter des éléments,
+        ainsi que de de gérer des itérateurs. L'utilisation des itérateurs est particulièrement utile pour s'affranchir 
+        du mécanisme des listes. Un fois créé, il suffit de lui appliquer la fonction {\em Suivant} pour le placer sur 
+        l'élément suivant ou {\em Element\_Courant} pour récupérer la valeur courante de la liste. 
+        Cela permet une utilisation plus simple et plus sûre des listes.
+    }
+
+    \subsection{Utilisation des packages}
+    {
+        Afin de généraliser notre code à plusieurs jeux, nous utilisons avec force la généricité dans les packages crées.
+        En effet, nous utilisons dans chaque fichier .adb, seulement les fonctions et procédures déclarées dans les fichiers
+        .ads, qu'elles soient génériques ou non. Cette façon de faire nous permet que tout fonctionne correctement en ne changeant
+        uniquement que le package Puissance4 (et le remplacer par un autre jeu éventuellement).
+        C'est pourquoi, dans la procédure mère main, on instancie d'abord le package Puissance4 en précisant ses paramètres
+        génériques (largeur, hauteur et nombre de pions nécessaires) puis on utilise les fonctions de Puissance4 dans Partie.
+        Si on veut utiliser l'ordinateur pour remplacer des joueurs, on aura juste à créer le package Moteur avec les fonctions
+        de Puissance4 et utiliser pour Partie la fonction dans Moteur qui renvoit le coup à jouer pour l'ordinateur à la place de
+        celle qui le demandait à l'utilisateur.
+        Dans notre code, seules le package Puissance4 est unique à ce jeu et tout le reste peut être gardé si on change de jeu.
+    }
 } 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,9 +80,41 @@
     % Min_Max
     % Aléatoire
     % Partie
-    \subsection{Place mémoire requise\,: }
-    {
 
+    \subsection{Déroulement d'une partie}
+    {
+        C'est la procédure Joue_Partie qui lance la partie en commençant par le Joueur donné en paramètre. On effectue une boucle
+        while qui vérifie que l'état n'est pas en status quo puis on passe d'un joueur à l'autre en effectuant à chaque fois
+        la même séquence de fonctions du package Partie :
+        \begin{enumerate}
+            \item Affichage du jeu
+            \item Demande du coup
+            \item Affichage du coup
+            \item Calcul de l'état suivant étant donné le coup
+            \item Vérification si l'état est gagnant
+            \item Tour suivant : rappel de la fonction pour l'autre joueur.
+        \end{enumerate}
+        Grâce à la généricité, la fonction demande le coup suivant au joueur, ou alors c'est l'ordinateur qui le calcule.
+        Si l'état est gagnant, notre code effectue un goto pour sortir de la boucle principale et quitter le programme.
+        A l'avantage d'un exit, cette méthode permet d'afficher directement dans la boucle le message de victoire au lieu
+        d'avoir à appeler encore une fois la fonction de vérification de l'état gagnant ou d'utiliser des méthodes moins
+        compréhensibles que le très controversé goto.
+    }
+
+    \subsection{Vérification de l'état gagnant}
+    {
+    }
+
+    \subsection{Evaluation statique}
+    {
+    }
+
+    \subsection{Algorithme Min-Max}
+    {
+    }
+
+    \subsection{Génération de l'aléatoire}
+    {
     }
 }   
 
@@ -56,6 +122,14 @@
 {
     % Résultats généraux
     % Ordinateur contre lui-même
+
+    \subsection{Résultats généraux}
+    {
+    }
+
+    \subsection{Influence de la profondeur de recherche}
+    {
+    }
 }
 
 \end{document}
