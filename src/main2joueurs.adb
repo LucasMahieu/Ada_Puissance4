@@ -40,6 +40,8 @@ procedure Main2Joueurs is
                                        3,
                                        Joueur1);
 
+-- Pour lancer une partie : ordi vs ordi, activer MyMoteur1 et MyMoteur2 et commenter la demande de Coup_Joueur 1
+-- Pour lancer joueur vs joueur : activer les deux Demande_Coup_Joueur
 	package MyPartie is new Partie(MyPuissance4.Etat,
                                    MyPuissance4.Coup, 
                                    "Sarah Connor",
