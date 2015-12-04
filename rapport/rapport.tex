@@ -124,13 +124,13 @@
         \begin{center}
             $7 \times Largeur \times Pions\_Victoires$
         \end{center}
-        7 correspond à tous les sens exploré pour chaque pion.
+        7 correspond à tous les sens explorés pour chaque pion.
     }
 
     \subsection{Evaluation statique}
     {
         L'évaluation statique est le coeur de l'algorithmique Min-Max et donc l'efficacité de cette fonction correspond à l'
-        efficacité du jeu de l'ordinateur. Notre fonction renvoit Pions\_Victoire en cas d'état gagnant pour le Joueur ou
+        efficacité du jeu de l'ordinateur. Notre fonction renvoi Pions\_Victoire en cas d'état gagnant pour le Joueur ou
         l'opposé pour l'adversaire.
         Dans les autres cas : on parcourt tout le tableau et on regarde pour chaque pion s'il fait partie d'une séquence
         complétable. On entend par séquence complétable un alignement de pions qui peut être complété par un nouveau pion.
@@ -139,28 +139,37 @@
         De même que pour la fonction Est\_Gagnant, on regarde dans toutes les directions et prenant aussi la colonne montante (sur
         le pion considéré) et on garde la taille de la plus grande séquence complétable que l'on trouve.
         A la fin du parcours de tout le tableau, on a pour les deux joueurs, la taille de leur plus grande séquence complétable
-        on renvoit 0 si ces tailles sont identiques et + ou - la taille suivant que c'est le JoueurMoteur qui a la plus grande
+        on renvoi 0 si ces tailles sont identiques et + ou - la taille suivant que c'est le JoueurMoteur qui a la plus grande
         ou l'adversaire.
         Cette méthode fournit une bonne évaluation statique du jeu, cependant, on ne traite pas les cas où la séquence n'est pas
         complétable quand il n'y a pas assez de place et on ne compte pas le nombre de séquence de même taille qu'on rencontre.
-        En effet si le Joueur1 a 3 séquence de 3 pions alignés, l'évaluation lui devrait être favorable par rapport au Joueur2
+        En effet si le Joueur1 a 3 séquences de 3 pions alignés, l'évaluation lui devrait être favorable par rapport au Joueur2
         qui aurait qu'une seule séquence de 3 pions. Cette distinction n'est pas faite car en parcourant tous les pions on
-        compterait une même séquence plusieures fois.
+        compterait une même séquence plusieurs fois.
         Le coût de cet algorithme en pire cas peut être borné par :
         \begin{center}
             $14 \times Largeur \times Pions\_Victoires + 8 \times Largeur \times Hauteur \times (Pions\_Victoire - 1)$
         \end{center}
         Cette fonction vérifiant si le Joueur ou l'adversaire ayant gagné, on doit refaire les mêmes opérations deux fois.
-        Ensuite, on vérifie pour les 4 directions et dans les deux sens tous les pions de la grille avec des while qui
-        s'executent au maximum Pions\_Victoire - 1.
+        Ensuite, on vérifie pour les 4 directions et dans les deux sens tous les pions de la grille avec des {\em while} qui
+        s'exécutent au maximum (Pions\_Victoire - 1) fois.
     }
 
     \subsection{Algorithme Min-Max}
     {
+    Lors de l'appel à la fonction de Choix\_coût du joueur ordinateur qui donner toute {\em 'l'intelligence'} à l'ordinateur et qui donnera du pain sur la planche au joueur humain est mis en oeuvre grâce à la fonction Eval\_Min\_Max qui fait appel directement à la fonction d'Evaluation statique.
+    Dans cet algorithme Min-Max on distingue 3 cas :
+    \begin{itemize}
+            \item Soit la profondeur de recherche dans l'arbre des états atteignables est nulle : dans ce cas on retourne le gain calculé par la fonction d'évaluation statique. 
+            \item Soit l'état atteint est gagnant pour l'ordi ou le joueur : la fonction d'évaluation statique retournera +/- la valeur maximum d'évaluation.
+            \item Soit on appelle récursivement cette fonction jusqu'à obtenir l'un des cas précédents et de pouvoir prendre le maximum ou le minimum en fonction du joueur qui joue : on maximize pour l'ordinateur et minimize pour le joueur humain.
+        \end{itemize}
     }
 
     \subsection{Génération de l'aléatoire}
     {
+    Dans tous les cas où l'on a des décisions a prendre et que plusieurs coups donnent la même évaluation nous faisons un choix aléatoire entre les coups possibles.
+    Pour cela nous utilisons le package Ada.Numerics.Discrete\_Random(1..10) qui donne un entier entre [0..10]. En faisant une simple comparaison entre 5 et le nombre tiré, on aura un choix aléatoire entre deux coups possibles. On itérer ce choix aléatoire en cas de succession de coups équivalants. 
     }
 }   
 
