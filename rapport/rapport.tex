@@ -43,7 +43,7 @@
         Pour faciliter la représentation du tableau et de tous les calculs dans notre code, nous avons ajouté à l'énumération
         Joueur un dernier membre Vide. Ainsi, pour représenter le tableau (structure Etat), nous avons utilisé un tableau 
         de Joueur de taille $Largeur  \times Hauteur$ et chaque case peut donc être : Joueur1, Joueur2 ou Vide. 
-        Ceci a grandement facilité tout nos algorithmes d'affichage, et de calcul d'état. De plus, les coups étant joué à la suite
+        Ceci a grandement facilité tous nos algorithmes d'affichage, et de calcul d'état. De plus, les coups étant joués à la suite
         et à cause de la gravité terrestre, nous avons choisi de représenter Coup par un Joueur et une colonne du tableau. Il est
         alors simple de savoir où est le pion que le joueur vient de poser.
     }
@@ -60,15 +60,15 @@
     \subsection{Utilisation des packages}
     {
         Afin de généraliser notre code à plusieurs jeux, nous utilisons avec force la généricité dans les packages crées.
-        En effet, nous utilisons dans chaque fichier .adb, seulement les fonctions et procédures déclarées dans les fichiers
+        En effet, nous utilisons dans chaque fichier .adb, seulement les fonctions et procédures déclarées dans son fichier
         .ads, qu'elles soient génériques ou non. Cette façon de faire nous permet que tout fonctionne correctement en ne changeant
-        uniquement que le package Puissance4 (et le remplacer par un autre jeu éventuellement).
+        uniquement le package Puissance4 (et le remplacer par un autre jeu éventuellement).
         C'est pourquoi, dans la procédure mère main, on instancie d'abord le package Puissance4 en précisant ses paramètres
         génériques (largeur, hauteur et nombre de pions nécessaires) puis on utilise les fonctions de Puissance4 dans Partie.
         Si on veut utiliser l'ordinateur pour remplacer des joueurs, on aura juste à créer le package Moteur avec les fonctions
         de Puissance4 et utiliser pour Partie la fonction dans Moteur qui renvoit le coup à jouer pour l'ordinateur à la place de
         celle qui le demandait à l'utilisateur.
-        Dans notre code, seules le package Puissance4 est unique à ce jeu et tout le reste peut être gardé si on change de jeu.
+        Dans notre code, seul le package Puissance4 est unique à ce jeu et tout le reste peut être gardé si on change de jeu.
     }
 
     \newpage
@@ -110,8 +110,8 @@
         est susceptible d'avoir posé, c'est à dire les pions du joueur aux sommets des piles de pions : les dernières cases
         non vides.
         Pour ces pions là, on vérifie ses voisins pour trouver un alignement de pions suffisant pour la victoire en effectuant
-        des boucles while (E(i\_test, j\_test) = J) et en incrémentant un comtpeur à chaque itération. On renvoit true dès que
-        on a trouvé un tel alignement. On vérifie les directions suivantes à chaque fois :
+        des boucles while (E(i\_test, j\_test) = J) et en incrémentant un compteur à chaque itération. On renvoit true dès que
+        l'on a trouvé un tel alignement. On vérifie les directions suivantes à chaque fois :
         \begin{enumerate}
             \item Diagonale $y = x$ (sens montant et descendant)
             \item Diagonale $y = -x$ (sens montant et descendant)
@@ -119,7 +119,7 @@
             \item Colonne (sous le pion posé)
         \end{enumerate}
         On vérifie bien sur à chaque fois que l'on ne dépasse pas les dimensions du tableau en faisant des exit sur ces boucles
-        while quand nécessaires. Si on n'a pas trouvé d'alignements, on renvoit false.
+        while quand nécessaire. Si on n'a pas trouvé d'alignements, on renvoit false.
         On peut borner le coût en pire cas de cet algorithme par :
         \begin{center}
             $7 \times Largeur \times Pions\_Victoires$
@@ -139,7 +139,7 @@
         De même que pour la fonction Est\_Gagnant, on regarde dans toutes les directions et prenant aussi la colonne montante (sur
         le pion considéré) et on garde la taille de la plus grande séquence complétable que l'on trouve.
         A la fin du parcours de tout le tableau, on a pour les deux joueurs, la taille de leur plus grande séquence complétable
-        on renvoi 0 si ces tailles sont identiques et + ou - la taille suivant que c'est le JoueurMoteur qui a la plus grande
+        on renvoit 0 si ces tailles sont identiques et + ou - la taille suivant que c'est le JoueurMoteur qui a la plus grande
         ou l'adversaire.
         Cette méthode fournit une bonne évaluation statique du jeu, cependant, on ne traite pas les cas où la séquence n'est pas
         complétable quand il n'y a pas assez de place et on ne compte pas le nombre de séquence de même taille qu'on rencontre.
@@ -152,24 +152,24 @@
         \end{center}
         Cette fonction vérifiant si le Joueur ou l'adversaire ayant gagné, on doit refaire les mêmes opérations deux fois.
         Ensuite, on vérifie pour les 4 directions et dans les deux sens tous les pions de la grille avec des {\em while} qui
-        s'exécutent au maximum (Pions\_Victoire - 1) fois.
+        s'exécutent au maximum $Pions\_Victoire - 1$ fois.
     }
 
     \subsection{Algorithme Min-Max}
     {
-    Lors de l'appel à la fonction de Choix\_coût du joueur ordinateur qui donner toute {\em 'l'intelligence'} à l'ordinateur et qui donnera du pain sur la planche au joueur humain est mis en oeuvre grâce à la fonction Eval\_Min\_Max qui fait appel directement à la fonction d'Evaluation statique.
+    L'appel à la fonction Choix\_Coup du joueur ordinateur qui donne toute {\em "l'intelligence"} à l'ordinateur et qui donnera du pain sur la planche au joueur humain est mis en oeuvre grâce à la fonction Eval\_Min\_Max qui fait appel directement à la fonction d'Evaluation statique.
     Dans cet algorithme Min-Max on distingue 3 cas :
     \begin{itemize}
             \item Soit la profondeur de recherche dans l'arbre des états atteignables est nulle : dans ce cas on retourne le gain calculé par la fonction d'évaluation statique. 
-            \item Soit l'état atteint est gagnant pour l'ordi ou le joueur : la fonction d'évaluation statique retournera +/- la valeur maximum d'évaluation.
-            \item Soit on appelle récursivement cette fonction jusqu'à obtenir l'un des cas précédents et de pouvoir prendre le maximum ou le minimum en fonction du joueur qui joue : on maximize pour l'ordinateur et minimize pour le joueur humain.
+            \item Soit l'état atteint est gagnant pour l'ordinateur ou le joueur : la fonction d'évaluation statique retournera +/- la valeur maximum d'évaluation.
+            \item Soit on appelle récursivement cette fonction jusqu'à obtenir l'un des cas précédents et de pouvoir prendre le maximum ou le minimum en fonction du joueur qui joue : on maximise pour l'ordinateur et minimise pour le joueur humain.
         \end{itemize}
     }
 
     \subsection{Génération de l'aléatoire}
     {
-    Dans tous les cas où l'on a des décisions a prendre et que plusieurs coups donnent la même évaluation nous faisons un choix aléatoire entre les coups possibles.
-    Pour cela nous utilisons le package Ada.Numerics.Discrete\_Random(1..10) qui donne un entier entre [0..10]. En faisant une simple comparaison entre 5 et le nombre tiré, on aura un choix aléatoire entre deux coups possibles. On itérer ce choix aléatoire en cas de succession de coups équivalants. 
+    Dans tous les cas où l'on a des décisions à prendre et que plusieurs coups donnent la même évaluation nous faisons un choix aléatoire entre les coups possibles.
+    Pour cela nous utilisons le package Ada.Numerics.Discrete\_Random(1..10) qui donne un entier aléatoire entre 0 et 10. En faisant une simple comparaison entre 5 et le nombre tiré, on aura un choix aléatoire entre deux coups possibles. On itérera ce choix aléatoire en cas de succession de coups équivalants. 
     }
 }   
 
@@ -213,11 +213,11 @@
             \end{center}
         \end{figure}
 
-        On remarque qu'en moyenne, la probabilité de victorie augmente avec la profondeur. On remarque cependant des résultats
-        incohérentes avec cette théorique pour le cas 6 / 6. On peut expliquer ceci par une mauvaise gestion de notre algorithme
+        On remarque qu'en moyenne, la probabilité de victoire augmente avec la profondeur. On remarque cependant des résultats
+        incohérents avec cette théorie pour le cas 6 / 6. On peut expliquer ceci par une mauvaise gestion de notre algorithme
         Eval proche des bords, ces parties étant prolongées on arrive souvent dans ces cas-là. De plus pour ces tests, le Joueur1
         commençait, on peut peut-être en déduire un avantage pour le Joueur2.
-        On a aussi remarque que pour les cas 6 / 6, le jeu étant plus lent à s'executer : ce qui est normal étant donné la
+        On a aussi remarqué que pour les cas 6 / 6, le jeu étant plus lent à s'executer : ce qui est normal étant donné la
         récursivité de l'algorithme.
     }
 }

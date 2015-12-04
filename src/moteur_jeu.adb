@@ -56,6 +56,10 @@ package body Moteur_Jeu is
                 end if;
             end if;
         end loop;
+
+
+        Libere_Iterateur(it);
+        Libere_Liste(lcp);
         new_line;
         return choicoup;
     end Choix_Coup;
@@ -102,6 +106,9 @@ package body Moteur_Jeu is
                         end if;
                     end if;
                 end loop;
+
+                Libere_Iterateur(it);
+                Libere_Liste(lcp);
                 return minMax;
             end if;
         end if;

@@ -24,7 +24,7 @@ procedure Main2Joueurs is
                                        MyPuissance4.Liste_Coups,
                                        MyPuissance4.Coups_Possibles,
                                        MyPuissance4.Eval,
-                                       4,
+                                       3,
                                        Joueur2);
 
     -- Moteur de jeu pour le Joueur1.
@@ -67,6 +67,6 @@ begin
 	Put_Line("Joueur 2 : O");
 
 	MyPuissance4.Initialiser(P);
-
 	Joue_Partie(P, Joueur1);
+
 end Main2Joueurs;
