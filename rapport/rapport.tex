@@ -169,7 +169,7 @@
     \subsection{Génération de l'aléatoire}
     {
     Dans tous les cas où l'on a des décisions à prendre et que plusieurs coups donnent la même évaluation nous faisons un choix aléatoire entre les coups possibles.
-    Pour cela nous utilisons le package Ada.Numerics.Discrete\_Random(1..10) qui donne un entier aléatoire entre 0 et 10. En faisant une simple comparaison entre 5 et le nombre tiré, on aura un choix aléatoire entre deux coups possibles. On itérera ce choix aléatoire en cas de succession de coups équivalants. 
+    Pour cela nous utilisons le package \\Ada.Numerics.Discrete\_Random(1..10) qui donne un entier aléatoire entre 0 et 10. En faisant une simple comparaison entre 5 et le nombre tiré, on aura un choix aléatoire entre deux coups possibles. On itérera ce choix aléatoire en cas de succession de coups équivalants. 
     }
 }   
 
@@ -180,9 +180,10 @@
 
     \subsection{Résultats généraux}
     {
-        Dans l'ensemble le code fonctionne, en jouant normalement il est assez difficile de gagner contre l'ordinateur à moins
+        Dans l'ensemble le code fonctionne bien, en jouant normalement il est assez difficile de gagner contre l'ordinateur à moins
         d'utiliser des stratégies compliquées. Les résultats sont très satisfaisants. Le jeu est fluide et l'affichage agréable
         pour des dimensions de tableau qui ne sont pas trop grandes.
+        De plus, l'interface au lancement du jeu apporte plus de fluidité dans le jeu et dans le choix des modes proposés.
     }
 
     \subsection{Influence de la profondeur de recherche}
@@ -208,16 +209,15 @@
                     \hline
                     \hline
                 \end{tabular}
-                \caption{Nombre de victoire par joueur et de matchs nuls et faisant varier P pour 10 executions}
+                \caption{Nombre de victoire par joueur et de matchs nuls et faisant varier P pour 10 exécutions}
                 \label{table-temps}
             \end{center}
         \end{figure}
 
         On remarque qu'en moyenne, la probabilité de victoire augmente avec la profondeur. On remarque cependant des résultats
-        incohérents avec cette théorie pour le cas 6 / 6. On peut expliquer ceci par une mauvaise gestion de notre algorithme
-        Eval proche des bords, ces parties étant prolongées on arrive souvent dans ces cas-là. De plus pour ces tests, le Joueur1
-        commençait, on peut peut-être en déduire un avantage pour le Joueur2.
-        On a aussi remarqué que pour les cas 6 / 6, le jeu étant plus lent à s'executer : ce qui est normal étant donné la
+        incohérents avec cette théorie pour le cas 6 / 6. On peut expliquer ceci par le fait que pour ces tests, le Joueur1
+        commençait, on peut en déduire un avantage pour le Joueur2.
+        On a aussi remarqué que pour les cas 6 / 6, le jeu était plus lent à s'executer : ce qui est normal étant donné la
         récursivité de l'algorithme.
     }
 }
