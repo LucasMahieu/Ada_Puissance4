@@ -9,7 +9,6 @@ package body Partie is
 	begin
 		-- Tant que le match n'est pas nul, on joue.
 		while (Est_Nul(E) = false) loop
-			New_Line;
 			Affiche_Jeu(E);
 			-- Tour du premier joueur (donné en param)
 			if (j_en_cours = Joueur1) then

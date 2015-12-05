@@ -250,7 +250,12 @@ package body Puissance4 is
 	----- Affiche coup
 	----------------------------------------------
     procedure Affiche_Coup(C : in Coup) is
+		boucle : Integer := 45;
     begin
+		while boucle > 0 loop
+			boucle := boucle-1;
+			New_Line;
+		end loop;
         if (C.j = Joueur1) then
             Put_Line("Le joueur 1 a mis son pion sur la colonne" & Integer'Image(C.col));
         elsif (C.j = Joueur2) then
