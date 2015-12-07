@@ -14,9 +14,9 @@ use Participant;
 procedure Main2Joueurs is
 
 -- Pour changer la taille de la grille : changer les 3 peram de cette instanciation
-	-- 1er : Hauteur
-	-- 2eme: Largeur 
-	-- 3eme: Puissance (nb de pion à aligner pour gagner)
+	-- 1er : Largeur 
+	-- 2eme: Hauteur 
+	-- 3eme: Puissance (nb de pions à aligner pour gagner)
 	package MyPuissance4 is new Puissance4(7,6,4);
 
     -- Moteur de jeu Ordi 1 : Pas très fort : profondeur = 5.
